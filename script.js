@@ -10,14 +10,19 @@ let pontos = 0;
 
 pontuacao.value = 0;
 pontuacao.disabled = true;
+time = 0;
 
 // cores blue, yellow, red, green
 
 iniciar.addEventListener('click', ()=>{
+    
+    iniciar.value = 'Reiniciar';
     for( let i = 0; i < 4; i++){
         let clr = Math.floor(Math.random() * 4);
         order[i] = color[clr];
     }
+    
+    console.log('tempo :'+(2000 - time));
 
     let cnt = 0;
 
@@ -27,13 +32,13 @@ iniciar.addEventListener('click', ()=>{
             color.style.opacity = 0.5;
             setTimeout(()=>{
                 color.style.opacity = 1;
-            }, 1000);
-            console.log(order[cnt]);
+            }, 1000 - (time/2));
+            console.log(order[cnt].id);
             cnt++;
         }else{
             return;
         }
-    }, 2000);
+    }, 2000 - time);
 })
     
 
@@ -47,12 +52,16 @@ function clickedColor(id){
         alert('Errou/n Total: '+ pontuacao.value);
         location.reload();
     }else if( clicked.length == 4){
-        alert('Venceu!!!');
+        alert('Venceu!!!\n Se quiser, comece o próximo jogo!');
+        iniciar.value = 'Próximo nível';
         clicked = [];
+        if( (2000 - time) > 200){
+            time +=200;
+        }
     }
     setTimeout(()=>{
         id.style.opacity = 1;
-    }, 500);
+    }, 100);
 }
 
 blue.onclick = ()=>{
